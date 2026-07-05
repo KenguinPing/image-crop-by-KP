@@ -7,53 +7,53 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5f6f8;
-      --panel: rgba(255, 255, 255, 0.9);
-      --text: #172026;
-      --muted: #4f5f6d;
-      --line: rgba(218, 228, 238, 0.92);
-      --accent: #1769aa;
-      --accent-strong: #0f4e80;
+      --bg: #eaf5ff;
+      --panel: rgba(250, 253, 255, 0.84);
+      --text: #132842;
+      --muted: #536a82;
+      --line: rgba(181, 210, 235, 0.72);
+      --accent: #2f79b8;
+      --accent-strong: #1f5d91;
       --danger: #b23a2f;
-      --ok: #217a45;
-      --soft: rgba(248, 251, 253, 0.9);
-      --soft-strong: rgba(220, 239, 252, 0.96);
-      --shell-bg: rgba(255, 255, 255, 0.84);
-      --shadow: 0 18px 46px rgba(31, 52, 72, 0.12);
+      --ok: #237a5a;
+      --soft: rgba(246, 251, 255, 0.82);
+      --soft-strong: rgba(218, 239, 255, 0.92);
+      --shell-bg: rgba(250, 253, 255, 0.74);
+      --shadow: 0 18px 46px rgba(33, 78, 118, 0.16);
     }
 
     body[data-theme="light"] {
       color-scheme: light;
-      --bg: #f5f6f8;
-      --panel: rgba(255, 255, 255, 0.9);
-      --text: #172026;
-      --muted: #4f5f6d;
-      --line: rgba(218, 228, 238, 0.92);
-      --accent: #1769aa;
-      --accent-strong: #0f4e80;
+      --bg: #eaf5ff;
+      --panel: rgba(250, 253, 255, 0.84);
+      --text: #132842;
+      --muted: #536a82;
+      --line: rgba(181, 210, 235, 0.72);
+      --accent: #2f79b8;
+      --accent-strong: #1f5d91;
       --danger: #b23a2f;
-      --ok: #217a45;
-      --soft: rgba(248, 251, 253, 0.9);
-      --soft-strong: rgba(220, 239, 252, 0.96);
-      --shell-bg: rgba(255, 255, 255, 0.84);
-      --shadow: 0 18px 46px rgba(31, 52, 72, 0.12);
+      --ok: #237a5a;
+      --soft: rgba(246, 251, 255, 0.82);
+      --soft-strong: rgba(218, 239, 255, 0.92);
+      --shell-bg: rgba(250, 253, 255, 0.74);
+      --shadow: 0 18px 46px rgba(33, 78, 118, 0.16);
     }
 
     body[data-theme="pink"] {
       color-scheme: light;
-      --bg: #e6f8ff;
-      --panel: rgba(255, 246, 252, 0.84);
-      --text: #30222f;
-      --muted: #625165;
-      --line: rgba(255, 190, 225, 0.72);
-      --accent: #e24c9a;
-      --accent-strong: #ad2a70;
+      --bg: #fff0f6;
+      --panel: rgba(255, 248, 252, 0.82);
+      --text: #3b2633;
+      --muted: #705869;
+      --line: rgba(255, 185, 217, 0.68);
+      --accent: #df5b95;
+      --accent-strong: #b63a73;
       --danger: #b23a2f;
-      --ok: #167e66;
-      --soft: rgba(255, 237, 247, 0.82);
-      --soft-strong: rgba(255, 205, 235, 0.94);
-      --shell-bg: rgba(255, 250, 253, 0.76);
-      --shadow: 0 18px 46px rgba(44, 97, 128, 0.18);
+      --ok: #1f8666;
+      --soft: rgba(255, 240, 248, 0.8);
+      --soft-strong: rgba(255, 213, 235, 0.92);
+      --shell-bg: rgba(255, 250, 253, 0.72);
+      --shadow: 0 18px 46px rgba(168, 77, 120, 0.18);
     }
 
     body[data-theme="dark"] {
@@ -82,8 +82,8 @@
       min-height: 100vh;
       font-family: Arial, "Microsoft YaHei", "PingFang SC", sans-serif;
       background:
-        linear-gradient(rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.62)),
-        url("assets/eva-bg.jpg") center / cover fixed no-repeat,
+        linear-gradient(rgba(238, 248, 255, 0.34), rgba(238, 248, 255, 0.34)),
+        url("assets/light-bg.jpg") center / cover fixed no-repeat,
         var(--bg);
       color: var(--text);
     }
@@ -97,7 +97,7 @@
 
     body[data-theme="pink"] {
       background:
-        linear-gradient(rgba(255, 244, 251, 0.34), rgba(255, 244, 251, 0.34)),
+        linear-gradient(rgba(255, 238, 247, 0.4), rgba(255, 238, 247, 0.4)),
         url("assets/mengnan-bg.jpg") center / cover fixed no-repeat,
         var(--bg);
     }
@@ -232,6 +232,16 @@
       gap: 8px;
     }
 
+    .ratio-btn {
+      min-height: 42px;
+      padding: 0 8px;
+      font-size: 13px;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .size-card {
       display: grid;
       gap: 10px;
@@ -241,6 +251,56 @@
       background: var(--shell-bg);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+    }
+
+    .manual-crop-card {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--shell-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .manual-crop-card[hidden] {
+      display: none;
+    }
+
+    .id-photo-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--shell-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .id-photo-card[hidden] {
+      display: none;
+    }
+
+    .manual-pair {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) 18px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .manual-pair button {
+      grid-column: 2 / -1;
+      min-height: 36px;
+    }
+
+    .manual-separator {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
     }
 
     .mode-row {
@@ -383,7 +443,12 @@
 
     body[data-theme="pink"] input[type="number"],
     body[data-theme="pink"] select {
-      background: rgba(255, 250, 253, 0.9);
+      background: rgba(255, 250, 253, 0.88);
+    }
+
+    body[data-theme="light"] input[type="number"],
+    body[data-theme="light"] select {
+      background: rgba(255, 255, 255, 0.86);
     }
 
     input[type="number"]:disabled,
@@ -658,20 +723,41 @@
             <button class="ratio-btn" type="button" data-ratio="0.75">3:4</button>
             <button class="ratio-btn" type="button" data-ratio="1.7777777778">16:9</button>
             <button class="ratio-btn" type="button" data-ratio="0.5625">9:16</button>
+            <button class="ratio-btn" type="button" data-ratio="idphoto">常用证件照</button>
+            <button class="ratio-btn" type="button" data-ratio="manual">手动输入</button>
           </div>
-          <div class="field-row">
-            <span>证件照</span>
-            <select id="idPhotoPreset">
-              <option value="">不使用</option>
-              <option value="cn_id">身份证 358x441</option>
-              <option value="passport">护照 413x531</option>
-              <option value="us_visa">美国签证 600x600</option>
-              <option value="schengen_visa">申根签证 413x531</option>
-              <option value="japan_visa">日本签证 354x472</option>
-              <option value="canada_visa">加拿大签证 420x540</option>
-              <option value="uk_visa">英国签证 600x750</option>
-            </select>
-            <span>px</span>
+          <div class="id-photo-card" id="idPhotoCard" hidden>
+            <div class="field-row">
+              <span>常用证件照</span>
+              <select id="idPhotoPreset">
+                <option value="">请选择</option>
+                <option value="cn_id">身份证 358x441</option>
+                <option value="passport">护照 413x531</option>
+                <option value="us_visa">美国签证 600x600</option>
+                <option value="schengen_visa">申根签证 413x531</option>
+                <option value="japan_visa">日本签证 354x472</option>
+                <option value="canada_visa">加拿大签证 420x540</option>
+                <option value="uk_visa">英国签证 600x750</option>
+              </select>
+              <span>px</span>
+            </div>
+          </div>
+          <div class="manual-crop-card" id="manualCropCard" hidden>
+            <div class="label">手动输入</div>
+            <div class="manual-pair">
+              <span>比例</span>
+              <input id="manualRatioWidth" type="number" min="1" step="1" value="2" inputmode="numeric">
+              <span class="manual-separator">:</span>
+              <input id="manualRatioHeight" type="number" min="1" step="1" value="3" inputmode="numeric">
+              <button id="applyManualRatioBtn" class="secondary" type="button">应用比例</button>
+            </div>
+            <div class="manual-pair">
+              <span>分辨率</span>
+              <input id="manualPixelWidth" type="number" min="1" step="1" value="200" inputmode="numeric">
+              <span class="manual-separator">x</span>
+              <input id="manualPixelHeight" type="number" min="1" step="1" value="300" inputmode="numeric">
+              <button id="applyManualSizeBtn" class="secondary" type="button">应用分辨率</button>
+            </div>
           </div>
         </div>
 
@@ -716,37 +802,6 @@
           </div>
         </div>
 
-        <div class="group">
-          <div class="label">图片调整</div>
-          <div class="adjust-card">
-            <div class="toggle-grid">
-              <label><input id="invertInput" type="checkbox">反色</label>
-              <label><input id="grayscaleInput" type="checkbox">黑白</label>
-            </div>
-            <div class="slider-row">
-              <span>曝光</span>
-              <input id="exposureInput" type="range" min="-100" max="100" value="0">
-              <span id="exposureValue">0</span>
-            </div>
-            <div class="slider-row">
-              <span>对比</span>
-              <input id="contrastInput" type="range" min="-100" max="100" value="0">
-              <span id="contrastValue">0</span>
-            </div>
-            <div class="slider-row">
-              <span>色温</span>
-              <input id="temperatureInput" type="range" min="-100" max="100" value="0">
-              <span id="temperatureValue">0</span>
-            </div>
-            <div class="slider-row">
-              <span>饱和</span>
-              <input id="saturationInput" type="range" min="-100" max="100" value="0">
-              <span id="saturationValue">0</span>
-            </div>
-            <button id="resetAdjustBtn" class="secondary" type="button">重置调整</button>
-          </div>
-        </div>
-
         <div class="hint">操作：拖动画框，拖动框内移动位置。选择固定比例后，裁切框会自动保持比例。</div>
       </aside>
 
@@ -777,6 +832,36 @@
           <div><b>输出：</b>尚未生成</div>
           <div><b>目标：</b>小于 1 MB</div>
         </div>
+        <div class="group">
+          <div class="label">图片调整</div>
+          <div class="adjust-card">
+            <div class="toggle-grid">
+              <label><input id="invertInput" type="checkbox">反色</label>
+              <label><input id="grayscaleInput" type="checkbox">黑白</label>
+            </div>
+            <div class="slider-row">
+              <span>曝光</span>
+              <input id="exposureInput" type="range" min="-100" max="100" value="0">
+              <span id="exposureValue">0</span>
+            </div>
+            <div class="slider-row">
+              <span>对比</span>
+              <input id="contrastInput" type="range" min="-100" max="100" value="0">
+              <span id="contrastValue">0</span>
+            </div>
+            <div class="slider-row">
+              <span>色温</span>
+              <input id="temperatureInput" type="range" min="-100" max="100" value="0">
+              <span id="temperatureValue">0</span>
+            </div>
+            <div class="slider-row">
+              <span>饱和</span>
+              <input id="saturationInput" type="range" min="-100" max="100" value="0">
+              <span id="saturationValue">0</span>
+            </div>
+            <button id="resetAdjustBtn" class="secondary" type="button">重置调整</button>
+          </div>
+        </div>
         <div class="actions">
           <button id="resetBtn" class="secondary" type="button" disabled>重置裁切</button>
           <button id="exportBtn" class="primary" type="button" disabled>生成图片</button>
@@ -804,7 +889,15 @@
     const percentRangeInput = document.getElementById("percentRangeInput");
     const percentRangeValue = document.getElementById("percentRangeValue");
     const percentPresets = document.getElementById("percentPresets");
+    const idPhotoCard = document.getElementById("idPhotoCard");
     const idPhotoPreset = document.getElementById("idPhotoPreset");
+    const manualCropCard = document.getElementById("manualCropCard");
+    const manualRatioWidth = document.getElementById("manualRatioWidth");
+    const manualRatioHeight = document.getElementById("manualRatioHeight");
+    const manualPixelWidth = document.getElementById("manualPixelWidth");
+    const manualPixelHeight = document.getElementById("manualPixelHeight");
+    const applyManualRatioBtn = document.getElementById("applyManualRatioBtn");
+    const applyManualSizeBtn = document.getElementById("applyManualSizeBtn");
     const invertInput = document.getElementById("invertInput");
     const grayscaleInput = document.getElementById("grayscaleInput");
     const exposureInput = document.getElementById("exposureInput");
@@ -842,6 +935,7 @@
     let selectedRatio = "free";
     let drag = null;
     let lastDownloadUrl = null;
+    let manualOutputSize = null;
     const idPhotoPresets = {
       cn_id: { name: "身份证", width: 358, height: 441, maxKb: 300 },
       passport: { name: "护照", width: 413, height: 531, maxKb: 300 },
@@ -894,6 +988,65 @@
       document.querySelectorAll(".theme-btn").forEach((button) => {
         button.classList.toggle("active", button.dataset.theme === theme);
       });
+    }
+
+    function positiveNumber(value) {
+      const number = Number(value);
+      return Number.isFinite(number) && number > 0 ? number : 0;
+    }
+
+    function clearRatioButtons() {
+      document.querySelectorAll(".ratio-btn").forEach((button) => {
+        button.classList.remove("active");
+      });
+    }
+
+    function setManualCropVisible(visible) {
+      manualCropCard.hidden = !visible;
+      document.querySelectorAll(".ratio-btn").forEach((button) => {
+        if (button.dataset.ratio === "manual") {
+          button.classList.toggle("active", visible);
+        } else if (visible) {
+          button.classList.remove("active");
+        }
+      });
+    }
+
+    function setIdPhotoVisible(visible) {
+      idPhotoCard.hidden = !visible;
+      document.querySelectorAll(".ratio-btn").forEach((button) => {
+        if (button.dataset.ratio === "idphoto") {
+          button.classList.toggle("active", visible);
+        } else if (visible) {
+          button.classList.remove("active");
+        }
+      });
+    }
+
+    function applyCropRatio(ratio, outputSize = null) {
+      if (!Number.isFinite(ratio) || ratio <= 0) {
+        setStatus("请输入有效的裁切比例", true);
+        return;
+      }
+
+      idPhotoPreset.value = "";
+      clearRatioButtons();
+      setIdPhotoVisible(false);
+      setManualCropVisible(true);
+      selectedRatio = ratio;
+      manualOutputSize = outputSize;
+      setDownload(null);
+      outputReadout.textContent = "输出大小：-";
+
+      if (image) {
+        crop = centeredCropForRatio(selectedRatio);
+        clampCrop();
+        draw();
+      } else {
+        updateMeta();
+      }
+
+      setStatus(outputSize ? "已应用裁切分辨率" : "已应用裁切比例");
     }
 
     function fileExtension(name) {
@@ -1100,16 +1253,21 @@
       const preset = idPhotoPresets[idPhotoPreset.value];
       if (!preset) {
         selectedRatio = "free";
+        manualOutputSize = null;
+        setManualCropVisible(false);
+        setIdPhotoVisible(true);
         document.querySelectorAll(".ratio-btn").forEach((button) => {
-          button.classList.toggle("active", button.dataset.ratio === "free");
+          button.classList.toggle("active", button.dataset.ratio === "idphoto");
         });
         if (image) resetCrop();
         return;
       }
       selectedRatio = preset.width / preset.height;
-      document.querySelectorAll(".ratio-btn").forEach((button) => {
-        button.classList.remove("active");
-      });
+      manualOutputSize = null;
+      setManualCropVisible(false);
+      setIdPhotoVisible(true);
+      clearRatioButtons();
+      document.querySelector('.ratio-btn[data-ratio="idphoto"]')?.classList.add("active");
       if (image) {
         crop = centeredCropForRatio(selectedRatio);
         clampCrop();
@@ -1120,6 +1278,7 @@
     function outputDimensions() {
       const preset = idPhotoPresets[idPhotoPreset.value];
       if (preset) return { width: preset.width, height: preset.height };
+      if (manualOutputSize) return { ...manualOutputSize };
       return {
         width: Math.max(1, Math.round(crop.width)),
         height: Math.max(1, Math.round(crop.height))
@@ -1327,7 +1486,25 @@
     }
 
     function setRatio(value) {
+      if (value === "manual") {
+        idPhotoPreset.value = "";
+        setIdPhotoVisible(false);
+        setManualCropVisible(true);
+        updateMeta();
+        setStatus("请输入手动比例或分辨率");
+        return;
+      }
+      if (value === "idphoto") {
+        setManualCropVisible(false);
+        setIdPhotoVisible(true);
+        updateMeta();
+        setStatus("请选择常用证件照预设");
+        return;
+      }
       idPhotoPreset.value = "";
+      manualOutputSize = null;
+      setManualCropVisible(false);
+      setIdPhotoVisible(false);
       selectedRatio = value;
       document.querySelectorAll(".ratio-btn").forEach((button) => {
         button.classList.toggle("active", button.dataset.ratio === value);
@@ -1505,6 +1682,16 @@
       setDownload(null);
       outputReadout.textContent = "输出大小：-";
       updateMeta();
+    });
+    applyManualRatioBtn.addEventListener("click", () => {
+      const width = positiveNumber(manualRatioWidth.value);
+      const height = positiveNumber(manualRatioHeight.value);
+      applyCropRatio(width / height);
+    });
+    applyManualSizeBtn.addEventListener("click", () => {
+      const width = Math.round(positiveNumber(manualPixelWidth.value));
+      const height = Math.round(positiveNumber(manualPixelHeight.value));
+      applyCropRatio(width / height, width && height ? { width, height } : null);
     });
     percentSizeInput.addEventListener("input", () => {
       setPercentValue(percentSizeInput.value);
