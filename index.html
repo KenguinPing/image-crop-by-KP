@@ -16,6 +16,8 @@
       --accent: #2f79b8;
       --accent-strong: #1f5d91;
       --danger: #b23a2f;
+      --danger-bg: #d84f43;
+      --danger-strong: #b9362e;
       --ok: #237a5a;
       --soft: rgba(246, 251, 255, 0.82);
       --soft-strong: rgba(218, 239, 255, 0.92);
@@ -34,6 +36,8 @@
       --accent: #2f79b8;
       --accent-strong: #1f5d91;
       --danger: #b23a2f;
+      --danger-bg: #d84f43;
+      --danger-strong: #b9362e;
       --ok: #237a5a;
       --soft: rgba(246, 251, 255, 0.82);
       --soft-strong: rgba(218, 239, 255, 0.92);
@@ -51,7 +55,9 @@
       --line: rgba(255, 185, 217, 0.68);
       --accent: #df5b95;
       --accent-strong: #b63a73;
-      --danger: #b23a2f;
+      --danger: #b90f3e;
+      --danger-bg: #e0184d;
+      --danger-strong: #ad0632;
       --ok: #1f8666;
       --soft: rgba(255, 240, 248, 0.8);
       --soft-strong: rgba(255, 213, 235, 0.92);
@@ -69,7 +75,9 @@
       --line: rgba(164, 190, 236, 0.36);
       --accent: #9cbcff;
       --accent-strong: #d5e2ff;
-      --danger: #ff897f;
+      --danger: #f28f95;
+      --danger-bg: #8f3f49;
+      --danger-strong: #aa535d;
       --ok: #76d39d;
       --soft: rgba(25, 40, 68, 0.76);
       --soft-strong: rgba(48, 76, 128, 0.84);
@@ -543,6 +551,30 @@
       background: var(--accent-strong);
     }
 
+    .danger-action {
+      background: var(--danger-bg);
+      color: #fff;
+      border: 1px solid color-mix(in srgb, var(--danger-bg) 82%, black 18%);
+      box-shadow: 0 10px 22px color-mix(in srgb, var(--danger-bg) 28%, transparent);
+    }
+
+    body[data-theme="pink"] .danger-action {
+      border-color: rgba(117, 0, 39, 0.72);
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.62) inset,
+        0 12px 28px rgba(177, 0, 62, 0.36);
+    }
+
+    body[data-theme="dark"] .danger-action {
+      color: #ffe8ea;
+      border-color: rgba(255, 173, 181, 0.48);
+      box-shadow: 0 10px 22px rgba(40, 10, 18, 0.24);
+    }
+
+    .danger-action:hover {
+      background: var(--danger-strong);
+    }
+
     button:disabled,
     .download.disabled {
       cursor: not-allowed;
@@ -579,6 +611,7 @@
       display: grid;
       gap: 9px;
       min-height: 156px;
+      min-width: 0;
       padding: 14px;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -592,6 +625,20 @@
 
     .meta b {
       color: var(--text);
+    }
+
+    .meta-row {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 6px;
+      align-items: start;
+    }
+
+    .meta-value {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .info-panel {
@@ -653,6 +700,13 @@
       place-items: center;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+      transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .canvas-shell.dragover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
     }
 
     canvas {
@@ -695,6 +749,12 @@
       border-radius: 50%;
       border: 2px solid var(--accent);
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+    }
+
+    .credit a {
+      display: inline-grid;
+      border-radius: 50%;
+      line-height: 0;
     }
 
     @media (max-width: 1100px) {
@@ -751,7 +811,7 @@
       <div class="theme-switcher" id="themeSwitcher" aria-label="主题切换">
         <button class="theme-btn active" type="button" data-theme="light">浅色</button>
         <button class="theme-btn" type="button" data-theme="dark">深色</button>
-        <button class="theme-btn" type="button" data-theme="pink">猛男模式</button>
+        <button class="theme-btn" type="button" data-theme="pink">猛男mode</button>
       </div>
     </header>
 
@@ -759,8 +819,8 @@
       <aside class="panel controls">
         <label class="drop" id="dropZone" for="fileInput">
           <span>
-            <strong>上传图片</strong>
-            点击选择，或把图片拖到这里
+            <strong id="uploadTitle">上传图片</strong>
+            <span id="uploadHint">点击选择，或把图片拖到这里</span>
           </span>
         </label>
         <input id="fileInput" type="file" accept="image/*">
@@ -817,11 +877,30 @@
           <div class="label">输出文件大小</div>
           <div class="size-card">
             <div class="mode-row" id="sizeMode">
-              <label><input type="radio" name="sizeMode" value="absolute" checked>绝对大小</label>
-              <label><input type="radio" name="sizeMode" value="percent">原图百分比</label>
+              <label><input type="radio" name="sizeMode" value="percent" checked>原图百分比</label>
+              <label><input type="radio" name="sizeMode" value="absolute">绝对大小</label>
             </div>
             <div class="size-fields">
-              <div class="size-branch" id="absoluteBranch">
+              <div class="size-branch" id="percentBranch">
+                <div class="field-row">
+                  <span>百分比</span>
+                  <input id="percentSizeInput" type="number" min="1" max="100" step="1" value="100" inputmode="decimal">
+                  <span>%</span>
+                </div>
+                <div class="slider-row">
+                  <span>比例</span>
+                  <input id="percentRangeInput" type="range" min="1" max="100" step="1" value="100">
+                  <span id="percentRangeValue">100%</span>
+                </div>
+                <div class="preset-grid" id="percentPresets" aria-label="常用百分比">
+                  <button class="preset-btn active" type="button" data-percent="100">100%</button>
+                  <button class="preset-btn" type="button" data-percent="80">80%</button>
+                  <button class="preset-btn" type="button" data-percent="75">75%</button>
+                  <button class="preset-btn" type="button" data-percent="50">50%</button>
+                  <button class="preset-btn" type="button" data-percent="30">30%</button>
+                </div>
+              </div>
+              <div class="size-branch" id="absoluteBranch" hidden>
                 <div class="field-row">
                   <span>绝对大小</span>
                   <input id="absoluteSizeInput" type="number" min="1" step="1" value="1" inputmode="decimal">
@@ -829,25 +908,6 @@
                     <option value="mb" selected>MB</option>
                     <option value="kb">KB</option>
                   </select>
-                </div>
-              </div>
-              <div class="size-branch" id="percentBranch" hidden>
-                <div class="field-row">
-                  <span>百分比</span>
-                  <input id="percentSizeInput" type="number" min="1" max="100" step="1" value="50" inputmode="decimal">
-                  <span>%</span>
-                </div>
-                <div class="slider-row">
-                  <span>比例</span>
-                  <input id="percentRangeInput" type="range" min="1" max="100" step="1" value="50">
-                  <span id="percentRangeValue">50%</span>
-                </div>
-                <div class="preset-grid" id="percentPresets" aria-label="常用百分比">
-                  <button class="preset-btn" type="button" data-percent="100">100%</button>
-                  <button class="preset-btn" type="button" data-percent="80">80%</button>
-                  <button class="preset-btn" type="button" data-percent="75">75%</button>
-                  <button class="preset-btn active" type="button" data-percent="50">50%</button>
-                  <button class="preset-btn" type="button" data-percent="30">30%</button>
                 </div>
               </div>
             </div>
@@ -872,9 +932,9 @@
           <span>裁切预览</span>
           <span class="status" id="status"></span>
         </div>
-        <div class="canvas-shell">
+        <div class="canvas-shell" id="canvasShell">
           <canvas id="editorCanvas"></canvas>
-          <div class="empty" id="emptyState">选择图片后，会在这里显示可拖动的裁切区域。</div>
+          <div class="empty" id="emptyState">点击这里选择图片，或把图片拖到这里。</div>
         </div>
         <div class="stage-bottom">
           <span id="cropReadout">裁切尺寸：-</span>
@@ -885,19 +945,19 @@
       <aside class="panel info-panel">
         <h2 class="info-title">图片信息</h2>
         <div class="meta" id="meta">
-          <div><b>文件名：</b>尚未选择</div>
-          <div><b>格式：</b>尚未选择</div>
-          <div><b>原图：</b>尚未选择</div>
-          <div><b>详情：</b>尚未选择</div>
-          <div><b>输出：</b>尚未生成</div>
-          <div><b>输出格式：</b>JPEG / JPG</div>
+          <div class="meta-row"><b>文件名：</b><span class="meta-value">尚未选择</span></div>
+          <div class="meta-row"><b>格式：</b><span class="meta-value">尚未选择</span></div>
+          <div class="meta-row"><b>原图：</b><span class="meta-value">尚未选择</span></div>
+          <div class="meta-row"><b>详情：</b><span class="meta-value">尚未选择</span></div>
+          <div class="meta-row"><b>输出：</b><span class="meta-value">尚未生成</span></div>
+          <div class="meta-row"><b>输出格式：</b><span class="meta-value">JPEG / JPG</span></div>
         </div>
         <div class="group">
           <div class="label">图片调整</div>
           <div class="adjust-card">
             <div class="toggle-grid">
-              <label><input id="invertInput" type="checkbox">反色</label>
               <label><input id="grayscaleInput" type="checkbox">黑白</label>
+              <label><input id="invertInput" type="checkbox">反色</label>
             </div>
             <div class="slider-row">
               <span>曝光</span>
@@ -923,14 +983,16 @@
           </div>
         </div>
         <div class="actions">
-          <button id="resetBtn" class="secondary" type="button" disabled>重置裁切</button>
+          <button id="resetBtn" class="danger-action" type="button" disabled>重置裁切</button>
           <button id="exportBtn" class="primary" type="button" disabled>生成图片</button>
         </div>
         <a id="downloadLink" class="download download-main disabled" href="#" download="cropped-target-size.jpg" aria-disabled="true">下载结果</a>
       </aside>
     </section>
     <footer class="credit">
-      <img src="assets/kenguinping-avatar.jpg" alt="KenguinPing 的头像">
+      <a href="https://github.com/KenguinPing/image-crop-by-KP" target="_blank" rel="noopener noreferrer" aria-label="打开 KenguinPing/image-crop-by-KP GitHub 页面">
+        <img src="assets/kenguinping-avatar.jpg" alt="KenguinPing 的头像">
+      </a>
       <span>created by KenguinPing</span>
     </footer>
   </main>
@@ -938,6 +1000,8 @@
   <script>
     const fileInput = document.getElementById("fileInput");
     const dropZone = document.getElementById("dropZone");
+    const uploadTitle = document.getElementById("uploadTitle");
+    const uploadHint = document.getElementById("uploadHint");
     const ratioGrid = document.getElementById("ratioGrid");
     const themeSwitcher = document.getElementById("themeSwitcher");
     const sizeMode = document.getElementById("sizeMode");
@@ -978,6 +1042,7 @@
     const cropReadout = document.getElementById("cropReadout");
     const outputReadout = document.getElementById("outputReadout");
     const canvas = document.getElementById("editorCanvas");
+    const canvasShell = document.getElementById("canvasShell");
     const emptyState = document.getElementById("emptyState");
     const ctx = canvas.getContext("2d");
 
@@ -1031,8 +1096,19 @@
       return "JPEG / JPG";
     }
 
+    function supportedOutputFormat(type) {
+      return ["image/jpeg", "image/png", "image/webp"].includes(type) ? type : "image/jpeg";
+    }
+
+    function setOutputFormat(type) {
+      selectedOutputFormat = supportedOutputFormat(type);
+      outputFormatGroup.querySelectorAll(".format-btn").forEach((button) => {
+        button.classList.toggle("active", button.dataset.format === selectedOutputFormat);
+      });
+    }
+
     function getSizeMode() {
-      return document.querySelector('input[name="sizeMode"]:checked')?.value || "absolute";
+      return document.querySelector('input[name="sizeMode"]:checked')?.value || "percent";
     }
 
     function setSizeMode(mode) {
@@ -1237,6 +1313,12 @@
       statusText.classList.toggle("error", isError);
     }
 
+    function updateUploadPrompt(hasImage) {
+      uploadTitle.textContent = hasImage ? "重新上传" : "上传图片";
+      uploadHint.textContent = hasImage ? "点击替换当前图片，或把新图片拖到这里" : "点击选择，或把图片拖到这里";
+      dropZone.classList.toggle("has-image", hasImage);
+    }
+
     function setDownload(blob) {
       if (lastDownloadUrl) URL.revokeObjectURL(lastDownloadUrl);
 
@@ -1272,12 +1354,12 @@
       const output = outputSize || "尚未生成";
 
       meta.innerHTML = `
-        <div><b>文件名：</b>${fileName}</div>
-        <div><b>格式：</b>${format}</div>
-        <div><b>原图：</b>${original}</div>
-        <div><b>详情：</b>${detail}</div>
-        <div><b>输出：</b>${output}</div>
-        <div><b>输出格式：</b>${outputFormatLabel()}</div>
+        <div class="meta-row"><b>文件名：</b><span class="meta-value">${fileName}</span></div>
+        <div class="meta-row"><b>格式：</b><span class="meta-value">${format}</span></div>
+        <div class="meta-row"><b>原图：</b><span class="meta-value">${original}</span></div>
+        <div class="meta-row"><b>详情：</b><span class="meta-value">${detail}</span></div>
+        <div class="meta-row"><b>输出：</b><span class="meta-value">${output}</span></div>
+        <div class="meta-row"><b>输出格式：</b><span class="meta-value">${outputFormatLabel()}</span></div>
       `;
       cropReadout.textContent = `裁切尺寸：${image ? cropText : "-"}`;
     }
@@ -1603,6 +1685,7 @@
         setStatus("请选择图片文件", true);
         return;
       }
+      fileInput.value = "";
 
       if (objectUrl) URL.revokeObjectURL(objectUrl);
       setDownload(null);
@@ -1614,6 +1697,7 @@
         extension: fileExtension(file.name),
         lastModified: file.lastModified
       };
+      setOutputFormat(file.type);
       objectUrl = URL.createObjectURL(file);
 
       const nextImage = new Image();
@@ -1621,6 +1705,7 @@
         image = nextImage;
         emptyState.style.display = "none";
         canvas.style.display = "block";
+        updateUploadPrompt(true);
         fitCanvas();
         crop = centeredCropForRatio(selectedRatio);
         clampCrop();
@@ -1636,6 +1721,7 @@
         exportBtn.disabled = true;
         canvas.style.display = "none";
         emptyState.style.display = "block";
+        updateUploadPrompt(false);
         setStatus("图片读取失败", true);
       };
       nextImage.src = objectUrl;
@@ -1778,6 +1864,10 @@
     fileInput.addEventListener("change", () => loadFile(fileInput.files[0]));
     resetBtn.addEventListener("click", resetCrop);
     exportBtn.addEventListener("click", exportImage);
+    canvasShell.addEventListener("click", (event) => {
+      if (event.target === canvas && image) return;
+      fileInput.click();
+    });
     themeSwitcher.addEventListener("click", (event) => {
       const button = event.target.closest(".theme-btn");
       if (button) setTheme(button.dataset.theme);
@@ -1788,10 +1878,7 @@
     outputFormatGroup.addEventListener("click", (event) => {
       const button = event.target.closest(".format-btn");
       if (!button) return;
-      selectedOutputFormat = button.dataset.format || "image/jpeg";
-      outputFormatGroup.querySelectorAll(".format-btn").forEach((item) => {
-        item.classList.toggle("active", item === button);
-      });
+      setOutputFormat(button.dataset.format || "image/jpeg");
       setDownload(null);
       outputReadout.textContent = "输出大小：-";
       updateMeta();
@@ -1848,22 +1935,25 @@
     canvas.addEventListener("pointerup", onPointerUp);
     canvas.addEventListener("pointercancel", onPointerUp);
 
-    ["dragenter", "dragover"].forEach((eventName) => {
-      dropZone.addEventListener(eventName, (event) => {
-        event.preventDefault();
-        dropZone.classList.add("dragover");
+    [dropZone, canvasShell].forEach((uploadTarget) => {
+      ["dragenter", "dragover"].forEach((eventName) => {
+        uploadTarget.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          uploadTarget.classList.add("dragover");
+        });
       });
-    });
 
-    ["dragleave", "drop"].forEach((eventName) => {
-      dropZone.addEventListener(eventName, (event) => {
-        event.preventDefault();
-        dropZone.classList.remove("dragover");
+      ["dragleave", "drop"].forEach((eventName) => {
+        uploadTarget.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          uploadTarget.classList.remove("dragover");
+        });
       });
-    });
 
-    dropZone.addEventListener("drop", (event) => {
-      loadFile(event.dataTransfer.files[0]);
+      uploadTarget.addEventListener("drop", (event) => {
+        event.preventDefault();
+        loadFile(event.dataTransfer.files[0]);
+      });
     });
 
     window.addEventListener("resize", () => {
