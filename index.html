@@ -433,22 +433,26 @@
       background: var(--panel);
       color: var(--text);
       font: inherit;
+      color-scheme: light;
     }
 
     body[data-theme="dark"] input[type="number"],
     body[data-theme="dark"] select {
       background: rgba(8, 16, 31, 0.78);
       border-color: rgba(164, 190, 236, 0.32);
+      color-scheme: dark;
     }
 
     body[data-theme="pink"] input[type="number"],
     body[data-theme="pink"] select {
       background: rgba(255, 250, 253, 0.88);
+      color-scheme: light;
     }
 
     body[data-theme="light"] input[type="number"],
     body[data-theme="light"] select {
       background: rgba(255, 255, 255, 0.86);
+      color-scheme: light;
     }
 
     input[type="number"]:disabled,
@@ -469,6 +473,25 @@
       place-items: center;
       text-decoration: none;
       transition: background 140ms ease, color 140ms ease, opacity 140ms ease;
+      color-scheme: light;
+    }
+
+    body[data-theme="dark"] button,
+    body[data-theme="dark"] .download,
+    body[data-theme="dark"] input,
+    body[data-theme="dark"] select {
+      color-scheme: dark;
+    }
+
+    body[data-theme="light"] button,
+    body[data-theme="light"] .download,
+    body[data-theme="light"] input,
+    body[data-theme="light"] select,
+    body[data-theme="pink"] button,
+    body[data-theme="pink"] .download,
+    body[data-theme="pink"] input,
+    body[data-theme="pink"] select {
+      color-scheme: light;
     }
 
     .ratio-btn,
@@ -983,11 +1006,23 @@
       updatePresetState();
     }
 
-    function setTheme(theme) {
+    function getSystemTheme() {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+
+    function getInitialTheme() {
+      const savedTheme = localStorage.getItem("imageCropTheme");
+      return ["light", "dark", "pink"].includes(savedTheme) ? savedTheme : getSystemTheme();
+    }
+
+    function setTheme(theme, remember = true) {
       document.body.dataset.theme = theme;
       document.querySelectorAll(".theme-btn").forEach((button) => {
         button.classList.toggle("active", button.dataset.theme === theme);
       });
+      if (remember) {
+        localStorage.setItem("imageCropTheme", theme);
+      }
     }
 
     function positiveNumber(value) {
@@ -1667,12 +1702,19 @@
       handleAdjustmentChange();
     }
 
+    setTheme(getInitialTheme(), false);
+
     fileInput.addEventListener("change", () => loadFile(fileInput.files[0]));
     resetBtn.addEventListener("click", resetCrop);
     exportBtn.addEventListener("click", exportImage);
     themeSwitcher.addEventListener("click", (event) => {
       const button = event.target.closest(".theme-btn");
       if (button) setTheme(button.dataset.theme);
+    });
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      if (!localStorage.getItem("imageCropTheme")) {
+        setTheme(getSystemTheme(), false);
+      }
     });
     sizeMode.addEventListener("change", syncSizeInputs);
     absoluteSizeInput.addEventListener("input", syncSizeInputs);
