@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
   <title>图片裁切压缩工具</title>
   <style>
     :root {
-      color-scheme: light;
+      color-scheme: only light;
       --bg: #eaf5ff;
       --panel: rgba(250, 253, 255, 0.84);
       --text: #132842;
@@ -19,11 +20,12 @@
       --soft: rgba(246, 251, 255, 0.82);
       --soft-strong: rgba(218, 239, 255, 0.92);
       --shell-bg: rgba(250, 253, 255, 0.74);
+      --checker: rgba(210, 224, 236, 0.55);
       --shadow: 0 18px 46px rgba(33, 78, 118, 0.16);
     }
 
     body[data-theme="light"] {
-      color-scheme: light;
+      color-scheme: only light;
       --bg: #eaf5ff;
       --panel: rgba(250, 253, 255, 0.84);
       --text: #132842;
@@ -36,11 +38,12 @@
       --soft: rgba(246, 251, 255, 0.82);
       --soft-strong: rgba(218, 239, 255, 0.92);
       --shell-bg: rgba(250, 253, 255, 0.74);
+      --checker: rgba(210, 224, 236, 0.55);
       --shadow: 0 18px 46px rgba(33, 78, 118, 0.16);
     }
 
     body[data-theme="pink"] {
-      color-scheme: light;
+      color-scheme: only light;
       --bg: #fff0f6;
       --panel: rgba(255, 248, 252, 0.82);
       --text: #3b2633;
@@ -53,11 +56,12 @@
       --soft: rgba(255, 240, 248, 0.8);
       --soft-strong: rgba(255, 213, 235, 0.92);
       --shell-bg: rgba(255, 250, 253, 0.72);
+      --checker: rgba(244, 208, 225, 0.48);
       --shadow: 0 18px 46px rgba(168, 77, 120, 0.18);
     }
 
     body[data-theme="dark"] {
-      color-scheme: dark;
+      color-scheme: only light;
       --bg: #0c1424;
       --panel: rgba(13, 22, 39, 0.78);
       --text: #f2f7ff;
@@ -70,6 +74,7 @@
       --soft: rgba(25, 40, 68, 0.76);
       --soft-strong: rgba(48, 76, 128, 0.84);
       --shell-bg: rgba(15, 27, 48, 0.7);
+      --checker: rgba(255, 255, 255, 0.055);
       --shadow: 0 20px 48px rgba(0, 0, 0, 0.36);
     }
 
@@ -455,26 +460,26 @@
       background: var(--panel);
       color: var(--text);
       font: inherit;
-      color-scheme: light;
+      color-scheme: only light;
     }
 
     body[data-theme="dark"] input[type="number"],
     body[data-theme="dark"] select {
       background: rgba(8, 16, 31, 0.78);
       border-color: rgba(164, 190, 236, 0.32);
-      color-scheme: dark;
+      color-scheme: only light;
     }
 
     body[data-theme="pink"] input[type="number"],
     body[data-theme="pink"] select {
       background: rgba(255, 250, 253, 0.88);
-      color-scheme: light;
+      color-scheme: only light;
     }
 
     body[data-theme="light"] input[type="number"],
     body[data-theme="light"] select {
       background: rgba(255, 255, 255, 0.86);
-      color-scheme: light;
+      color-scheme: only light;
     }
 
     input[type="number"]:disabled,
@@ -495,14 +500,14 @@
       place-items: center;
       text-decoration: none;
       transition: background 140ms ease, color 140ms ease, opacity 140ms ease;
-      color-scheme: light;
+      color-scheme: only light;
     }
 
     body[data-theme="dark"] button,
     body[data-theme="dark"] .download,
     body[data-theme="dark"] input,
     body[data-theme="dark"] select {
-      color-scheme: dark;
+      color-scheme: only light;
     }
 
     body[data-theme="light"] button,
@@ -513,7 +518,7 @@
     body[data-theme="pink"] .download,
     body[data-theme="pink"] input,
     body[data-theme="pink"] select {
-      color-scheme: light;
+      color-scheme: only light;
     }
 
     .ratio-btn,
@@ -636,13 +641,13 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background:
-        linear-gradient(45deg, #e6ebef 25%, transparent 25%),
-        linear-gradient(-45deg, #e6ebef 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #e6ebef 75%),
-        linear-gradient(-45deg, transparent 75%, #e6ebef 75%);
+        linear-gradient(45deg, var(--checker) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--checker) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--checker) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--checker) 75%);
       background-color: var(--shell-bg);
-      background-size: 24px 24px;
-      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+      background-size: 32px 32px;
+      background-position: 0 0, 0 16px, 16px -16px, -16px 0;
       overflow: hidden;
       display: grid;
       place-items: center;
@@ -1055,13 +1060,9 @@
       updatePresetState();
     }
 
-    function getSystemTheme() {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-
     function getInitialTheme() {
-      const savedTheme = localStorage.getItem("imageCropTheme");
-      return ["light", "dark", "pink"].includes(savedTheme) ? savedTheme : getSystemTheme();
+      const savedTheme = localStorage.getItem("imageCropThemePreferenceV2");
+      return ["light", "dark", "pink"].includes(savedTheme) ? savedTheme : "light";
     }
 
     function setTheme(theme, remember = true) {
@@ -1070,7 +1071,7 @@
         button.classList.toggle("active", button.dataset.theme === theme);
       });
       if (remember) {
-        localStorage.setItem("imageCropTheme", theme);
+        localStorage.setItem("imageCropThemePreferenceV2", theme);
       }
     }
 
@@ -1777,11 +1778,6 @@
     themeSwitcher.addEventListener("click", (event) => {
       const button = event.target.closest(".theme-btn");
       if (button) setTheme(button.dataset.theme);
-    });
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-      if (!localStorage.getItem("imageCropTheme")) {
-        setTheme(getSystemTheme(), false);
-      }
     });
     sizeMode.addEventListener("change", syncSizeInputs);
     absoluteSizeInput.addEventListener("input", syncSizeInputs);
