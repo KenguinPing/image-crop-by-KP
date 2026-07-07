@@ -9,7 +9,7 @@
     :root {
       color-scheme: only light;
       --bg: #eaf5ff;
-      --panel: rgba(250, 253, 255, 0.84);
+      --panel: rgba(250, 253, 255, 0.72);
       --text: #132842;
       --muted: #536a82;
       --line: rgba(181, 210, 235, 0.72);
@@ -19,9 +19,9 @@
       --danger-bg: #d84f43;
       --danger-strong: #b9362e;
       --ok: #237a5a;
-      --soft: rgba(246, 251, 255, 0.82);
-      --soft-strong: rgba(218, 239, 255, 0.92);
-      --shell-bg: rgba(250, 253, 255, 0.74);
+      --soft: rgba(246, 251, 255, 0.66);
+      --soft-strong: rgba(218, 239, 255, 0.78);
+      --shell-bg: rgba(250, 253, 255, 0.56);
       --checker: rgba(210, 224, 236, 0.55);
       --shadow: 0 18px 46px rgba(33, 78, 118, 0.16);
     }
@@ -29,7 +29,7 @@
     body[data-theme="light"] {
       color-scheme: only light;
       --bg: #eaf5ff;
-      --panel: rgba(250, 253, 255, 0.84);
+      --panel: rgba(250, 253, 255, 0.72);
       --text: #132842;
       --muted: #536a82;
       --line: rgba(181, 210, 235, 0.72);
@@ -39,9 +39,9 @@
       --danger-bg: #d84f43;
       --danger-strong: #b9362e;
       --ok: #237a5a;
-      --soft: rgba(246, 251, 255, 0.82);
-      --soft-strong: rgba(218, 239, 255, 0.92);
-      --shell-bg: rgba(250, 253, 255, 0.74);
+      --soft: rgba(246, 251, 255, 0.66);
+      --soft-strong: rgba(218, 239, 255, 0.78);
+      --shell-bg: rgba(250, 253, 255, 0.56);
       --checker: rgba(210, 224, 236, 0.55);
       --shadow: 0 18px 46px rgba(33, 78, 118, 0.16);
     }
@@ -49,7 +49,7 @@
     body[data-theme="pink"] {
       color-scheme: only light;
       --bg: #fff0f6;
-      --panel: rgba(255, 248, 252, 0.82);
+      --panel: rgba(255, 248, 252, 0.7);
       --text: #3b2633;
       --muted: #705869;
       --line: rgba(255, 185, 217, 0.68);
@@ -59,9 +59,9 @@
       --danger-bg: #e0184d;
       --danger-strong: #ad0632;
       --ok: #1f8666;
-      --soft: rgba(255, 240, 248, 0.8);
-      --soft-strong: rgba(255, 213, 235, 0.92);
-      --shell-bg: rgba(255, 250, 253, 0.72);
+      --soft: rgba(255, 240, 248, 0.64);
+      --soft-strong: rgba(255, 213, 235, 0.78);
+      --shell-bg: rgba(255, 250, 253, 0.54);
       --checker: rgba(244, 208, 225, 0.48);
       --shadow: 0 18px 46px rgba(168, 77, 120, 0.18);
     }
@@ -69,19 +69,19 @@
     body[data-theme="dark"] {
       color-scheme: only light;
       --bg: #0c1424;
-      --panel: rgba(13, 22, 39, 0.78);
+      --panel: rgba(13, 22, 39, 0.64);
       --text: #f2f7ff;
       --muted: #c6d3e8;
       --line: rgba(164, 190, 236, 0.36);
-      --accent: #9cbcff;
-      --accent-strong: #d5e2ff;
-      --danger: #f28f95;
-      --danger-bg: #8f3f49;
-      --danger-strong: #aa535d;
+      --accent: #6f93f4;
+      --accent-strong: #c9d8ff;
+      --danger: #ffadb8;
+      --danger-bg: #c94d61;
+      --danger-strong: #e06476;
       --ok: #76d39d;
-      --soft: rgba(25, 40, 68, 0.76);
-      --soft-strong: rgba(48, 76, 128, 0.84);
-      --shell-bg: rgba(15, 27, 48, 0.7);
+      --soft: rgba(25, 40, 68, 0.58);
+      --soft-strong: rgba(48, 76, 128, 0.68);
+      --shell-bg: rgba(15, 27, 48, 0.5);
       --checker: rgba(255, 255, 255, 0.055);
       --shadow: 0 20px 48px rgba(0, 0, 0, 0.36);
     }
@@ -187,6 +187,13 @@
       -webkit-backdrop-filter: blur(16px) saturate(130%);
     }
 
+    .side-stack,
+    .workspace {
+      display: grid;
+      gap: 16px;
+      align-items: start;
+    }
+
     .controls {
       padding: 18px;
       display: grid;
@@ -224,6 +231,124 @@
       color: var(--muted);
       line-height: 1.55;
       font-size: 15px;
+    }
+
+    .drop.has-images {
+      place-items: stretch;
+      min-height: 0;
+      padding: 8px 12px 12px;
+      text-align: left;
+      border-style: solid;
+    }
+
+    .upload-empty {
+      text-align: center;
+    }
+
+    .image-queue {
+      display: grid;
+      align-content: start;
+      align-items: start;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .image-queue[hidden] {
+      display: none;
+    }
+
+    .queue-list {
+      display: grid;
+      grid-template-columns: repeat(3, 92px);
+      justify-content: start;
+      gap: 8px;
+      max-height: 248px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .queue-item {
+      position: relative;
+      width: 92px;
+      min-height: 72px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--soft);
+      cursor: pointer;
+    }
+
+    .queue-item.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 36%, transparent);
+    }
+
+    .queue-item img {
+      width: 100%;
+      height: 72px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .queue-remove {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 20px;
+      height: 20px;
+      min-height: 20px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--danger-bg) 86%, #111 14%);
+      color: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+      font-size: 0;
+      font-weight: 800;
+      line-height: 1;
+      padding: 0;
+      display: block;
+    }
+
+    .queue-remove::before,
+    .queue-remove::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 2px;
+      border-radius: 999px;
+      background: #fff;
+      transform-origin: center;
+    }
+
+    .queue-remove::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .queue-remove::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .queue-name {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 3px 5px;
+      background: rgba(0, 0, 0, 0.54);
+      color: #fff;
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .add-more {
+      min-height: 0;
+      height: 38px;
+      width: 100%;
+      align-self: start;
     }
 
     input[type="file"] {
@@ -324,19 +449,24 @@
     .mode-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
+      gap: 0;
+      overflow: hidden;
+      padding: 0;
+      border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--shell-bg) 82%, transparent);
     }
 
     .mode-row label {
-      min-height: 52px;
+      min-height: 44px;
       padding: 8px 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 7px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--soft);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
       color: var(--text);
       font-weight: 700;
       font-size: 14px;
@@ -344,6 +474,28 @@
       text-align: center;
       word-break: keep-all;
       cursor: pointer;
+    }
+
+    .mode-row label + label {
+      border-left: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
+    }
+
+    .mode-row input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .mode-row label:has(input:checked) {
+      background: color-mix(in srgb, var(--accent) 12%, var(--shell-bg));
+      color: var(--accent-strong);
+      box-shadow: inset 0 -2px 0 var(--accent);
+    }
+
+    .mode-row label.active {
+      background: color-mix(in srgb, var(--accent) 12%, var(--shell-bg));
+      color: var(--accent-strong);
+      box-shadow: inset 0 -2px 0 var(--accent);
     }
 
     .size-fields {
@@ -547,8 +699,22 @@
       color: #fff;
     }
 
+    body[data-theme="dark"] .primary,
+    body[data-theme="dark"] .download-main {
+      background: #6f93f4;
+      border-color: rgba(207, 221, 255, 0.42);
+      color: #ffffff;
+      box-shadow: 0 12px 26px rgba(39, 72, 152, 0.34);
+    }
+
     .primary:hover {
       background: var(--accent-strong);
+    }
+
+    body[data-theme="dark"] .primary:hover,
+    body[data-theme="dark"] .download-main:not(.disabled):hover {
+      background: #84a6ff;
+      color: #07142d;
     }
 
     .danger-action {
@@ -566,13 +732,18 @@
     }
 
     body[data-theme="dark"] .danger-action {
-      color: #ffe8ea;
-      border-color: rgba(255, 173, 181, 0.48);
-      box-shadow: 0 10px 22px rgba(40, 10, 18, 0.24);
+      background: #b84558;
+      color: #fff7f8;
+      border-color: rgba(255, 183, 194, 0.48);
+      box-shadow: 0 12px 26px rgba(84, 19, 35, 0.28);
     }
 
     .danger-action:hover {
       background: var(--danger-strong);
+    }
+
+    body[data-theme="dark"] .danger-action:hover {
+      background: #cf5669;
     }
 
     button:disabled,
@@ -607,18 +778,196 @@
       background: var(--accent-strong);
     }
 
+    .result-panel {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--shell-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .result-panel[hidden] {
+      display: none;
+    }
+
+    .result-head {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      align-items: center;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .result-select-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .result-select-actions[hidden] {
+      display: none;
+    }
+
+    .select-results {
+      min-height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      color: var(--accent-strong);
+      font-size: 13px;
+    }
+
+    .result-list {
+      display: grid;
+      gap: 8px;
+      max-height: 230px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .result-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 24px 62px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      padding: 9px 32px 9px 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      cursor: pointer;
+    }
+
+    .result-check {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      justify-self: center;
+      border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--line));
+      border-radius: 6px;
+      background: color-mix(in srgb, var(--panel) 72%, transparent);
+      cursor: pointer;
+      position: relative;
+      transition: background 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+    }
+
+    .result-remove {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 20px;
+      height: 20px;
+      min-height: 20px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--danger-bg) 86%, #111 14%);
+      color: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+      font-size: 0;
+      font-weight: 800;
+      line-height: 1;
+      padding: 0;
+      z-index: 1;
+      display: block;
+    }
+
+    .result-remove::before,
+    .result-remove::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 2px;
+      border-radius: 999px;
+      background: #fff;
+      transform-origin: center;
+    }
+
+    .result-remove::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .result-remove::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .result-check::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 8px;
+      height: 5px;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: translate(-50%, -58%) rotate(-45deg) scale(0);
+      transform-origin: center;
+      transition: transform 120ms ease;
+    }
+
+    .result-check:checked {
+      border-color: var(--accent);
+      background: var(--accent);
+      box-shadow: none;
+    }
+
+    .result-check:checked::after {
+      transform: translate(-50%, -58%) rotate(-45deg) scale(1);
+    }
+
+    .result-check:active {
+      transform: scale(0.94);
+    }
+
+    .result-item img {
+      width: 62px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .result-item > span {
+      min-width: 0;
+      display: block;
+    }
+
+    .result-name {
+      min-width: 0;
+      color: var(--text);
+      font-size: 13.5px;
+      font-weight: 700;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .result-size {
+      color: var(--muted);
+      font-size: 12.5px;
+      margin-top: 3px;
+    }
+
     .meta {
       display: grid;
-      gap: 9px;
-      min-height: 156px;
+      grid-template-columns: 1fr;
+      gap: 5px;
+      min-height: 0;
       min-width: 0;
-      padding: 14px;
+      padding: 10px 12px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--shell-bg);
       color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
+      font-size: 14px;
+      line-height: 1.3;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
@@ -630,9 +979,18 @@
     .meta-row {
       min-width: 0;
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-columns: 58px minmax(0, 1fr);
       gap: 6px;
       align-items: start;
+      padding: 0;
+    }
+
+    .meta-row:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .meta-row b {
+      font-size: 13px;
     }
 
     .meta-value {
@@ -642,8 +1000,6 @@
     }
 
     .info-panel {
-      position: sticky;
-      top: 18px;
       padding: 16px;
       display: grid;
       gap: 12px;
@@ -762,9 +1118,9 @@
         grid-template-columns: 320px minmax(0, 1fr);
       }
 
-      .info-panel {
-        position: static;
+      .app > .side-stack:last-child {
         grid-column: 1 / -1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -787,16 +1143,29 @@
         grid-template-columns: 1fr;
       }
 
-      .info-panel {
+      .app > .side-stack:last-child {
         grid-column: auto;
+        grid-template-columns: 1fr;
       }
 
       .stage {
         min-height: 500px;
       }
 
+      .meta {
+        grid-template-columns: 1fr;
+      }
+
       .canvas-shell {
         min-height: 360px;
+      }
+
+      .queue-list {
+        grid-template-columns: repeat(3, minmax(0, 92px));
+      }
+
+      .queue-item {
+        width: 100%;
       }
     }
   </style>
@@ -816,14 +1185,19 @@
     </header>
 
     <section class="app" aria-label="图片裁切压缩工具">
-      <aside class="panel controls">
-        <label class="drop" id="dropZone" for="fileInput">
-          <span>
+      <aside class="side-stack">
+      <div class="panel controls">
+        <div class="drop" id="dropZone" role="button" tabindex="0">
+          <span class="upload-empty" id="uploadEmpty">
             <strong id="uploadTitle">上传图片</strong>
-            <span id="uploadHint">点击选择，或把图片拖到这里</span>
+            <span id="uploadHint">可一次选择多张图片，或把图片拖到这里</span>
           </span>
-        </label>
-        <input id="fileInput" type="file" accept="image/*">
+          <div class="image-queue" id="imageQueue" hidden>
+            <div class="queue-list" id="queueList"></div>
+            <button id="addMoreBtn" class="secondary add-more" type="button" hidden>添加更多图片</button>
+          </div>
+        </div>
+        <input id="fileInput" type="file" accept="image/*" multiple>
 
         <div class="group">
           <div class="label">裁切比例</div>
@@ -872,7 +1246,9 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="panel controls">
         <div class="group">
           <div class="label">输出文件大小</div>
           <div class="size-card">
@@ -925,9 +1301,11 @@
             </div>
           </div>
         </div>
+      </div>
       </aside>
 
-      <section class="panel stage">
+      <section class="workspace">
+      <div class="panel stage">
         <div class="stage-top">
           <span>裁切预览</span>
           <span class="status" id="status"></span>
@@ -940,17 +1318,18 @@
           <span id="cropReadout">裁切尺寸：-</span>
           <span id="outputReadout">输出大小：-</span>
         </div>
+      </div>
+
       </section>
 
-      <aside class="panel info-panel">
+      <aside class="side-stack">
+      <div class="panel info-panel">
         <h2 class="info-title">图片信息</h2>
         <div class="meta" id="meta">
           <div class="meta-row"><b>文件名：</b><span class="meta-value">尚未选择</span></div>
           <div class="meta-row"><b>格式：</b><span class="meta-value">尚未选择</span></div>
           <div class="meta-row"><b>原图：</b><span class="meta-value">尚未选择</span></div>
           <div class="meta-row"><b>详情：</b><span class="meta-value">尚未选择</span></div>
-          <div class="meta-row"><b>输出：</b><span class="meta-value">尚未生成</span></div>
-          <div class="meta-row"><b>输出格式：</b><span class="meta-value">JPEG / JPG</span></div>
         </div>
         <div class="group">
           <div class="label">图片调整</div>
@@ -986,7 +1365,20 @@
           <button id="resetBtn" class="danger-action" type="button" disabled>重置裁切</button>
           <button id="exportBtn" class="primary" type="button" disabled>生成图片</button>
         </div>
+      </div>
+      <div class="panel info-panel">
+        <div class="result-panel" id="resultPanel" hidden>
+          <div class="result-head">
+            <span>等待下载</span>
+            <div class="result-select-actions" id="resultSelectActions" hidden>
+              <button id="selectAllResultsBtn" class="select-results" type="button">全选所有结果</button>
+              <button id="clearResultsBtn" class="select-results" type="button">取消全选</button>
+            </div>
+          </div>
+          <div class="result-list" id="resultList"></div>
+        </div>
         <a id="downloadLink" class="download download-main disabled" href="#" download="cropped-target-size.jpg" aria-disabled="true">下载结果</a>
+      </div>
       </aside>
     </section>
     <footer class="credit">
@@ -1000,8 +1392,12 @@
   <script>
     const fileInput = document.getElementById("fileInput");
     const dropZone = document.getElementById("dropZone");
+    const uploadEmpty = document.getElementById("uploadEmpty");
     const uploadTitle = document.getElementById("uploadTitle");
     const uploadHint = document.getElementById("uploadHint");
+    const imageQueue = document.getElementById("imageQueue");
+    const queueList = document.getElementById("queueList");
+    const addMoreBtn = document.getElementById("addMoreBtn");
     const ratioGrid = document.getElementById("ratioGrid");
     const themeSwitcher = document.getElementById("themeSwitcher");
     const sizeMode = document.getElementById("sizeMode");
@@ -1036,6 +1432,11 @@
     const resetAdjustBtn = document.getElementById("resetAdjustBtn");
     const resetBtn = document.getElementById("resetBtn");
     const exportBtn = document.getElementById("exportBtn");
+    const resultPanel = document.getElementById("resultPanel");
+    const resultList = document.getElementById("resultList");
+    const resultSelectActions = document.getElementById("resultSelectActions");
+    const selectAllResultsBtn = document.getElementById("selectAllResultsBtn");
+    const clearResultsBtn = document.getElementById("clearResultsBtn");
     const downloadLink = document.getElementById("downloadLink");
     const meta = document.getElementById("meta");
     const statusText = document.getElementById("status");
@@ -1063,6 +1464,11 @@
     let lastDownloadUrl = null;
     let manualOutputSize = null;
     let selectedOutputFormat = "image/jpeg";
+    let imageItems = [];
+    let activeImageId = null;
+    let resultItems = [];
+    let nextImageId = 1;
+    let nextResultId = 1;
     const idPhotoPresets = {
       cn_id: { name: "身份证", width: 358, height: 441, maxKb: 300 },
       passport: { name: "护照", width: 413, height: 531, maxKb: 300 },
@@ -1078,6 +1484,16 @@
       if (bytes < 1024) return `${bytes} B`;
       if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
       return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      })[char]);
     }
 
     function outputFormat() {
@@ -1114,6 +1530,9 @@
     function setSizeMode(mode) {
       const input = document.querySelector(`input[name="sizeMode"][value="${mode}"]`);
       if (input) input.checked = true;
+      sizeMode.querySelectorAll("label").forEach((label) => {
+        label.classList.toggle("active", label.querySelector("input")?.checked);
+      });
     }
 
     function updatePresetState() {
@@ -1314,27 +1733,184 @@
     }
 
     function updateUploadPrompt(hasImage) {
-      uploadTitle.textContent = hasImage ? "重新上传" : "上传图片";
-      uploadHint.textContent = hasImage ? "点击替换当前图片，或把新图片拖到这里" : "点击选择，或把图片拖到这里";
-      dropZone.classList.toggle("has-image", hasImage);
+      uploadTitle.textContent = hasImage ? "继续添加" : "上传图片";
+      uploadHint.textContent = hasImage ? "点击添加更多图片，或拖到这里加入队列" : "可一次选择多张图片，或把图片拖到这里";
+      dropZone.classList.toggle("has-images", hasImage);
+      uploadEmpty.hidden = hasImage;
+      imageQueue.hidden = !hasImage;
+      addMoreBtn.hidden = !hasImage;
     }
 
-    function setDownload(blob) {
-      if (lastDownloadUrl) URL.revokeObjectURL(lastDownloadUrl);
+    function renderImageQueue() {
+      updateUploadPrompt(imageItems.length > 0);
+      queueList.innerHTML = imageItems.map((item) => `
+        <div class="queue-item${item.id === activeImageId ? " active" : ""}" data-id="${item.id}" title="${escapeHtml(item.file.name)}">
+          <img src="${item.url}" alt="${escapeHtml(item.file.name)}">
+          <button class="queue-remove" type="button" data-remove-id="${item.id}" aria-label="移除 ${escapeHtml(item.file.name)}">×</button>
+          <div class="queue-name">${escapeHtml(item.file.name)}</div>
+        </div>
+      `).join("");
+    }
 
-      if (!blob) {
-        lastDownloadUrl = null;
-        downloadLink.href = "#";
-        downloadLink.classList.add("disabled");
-        downloadLink.setAttribute("aria-disabled", "true");
-        return;
+    function clearCurrentImage() {
+      image = null;
+      activeImageId = null;
+      originalName = "image";
+      originalFileSize = 0;
+      originalFileInfo = { displayName: "", type: "", extension: "", lastModified: 0 };
+      canvas.style.display = "none";
+      emptyState.style.display = "block";
+      resetBtn.disabled = true;
+      exportBtn.disabled = true;
+      cropReadout.textContent = "裁切尺寸：-";
+      outputReadout.textContent = "输出大小：-";
+      updateMeta();
+    }
+
+    function saveActiveCrop() {
+      const activeItem = imageItems.find((entry) => entry.id === activeImageId);
+      if (activeItem && image) {
+        activeItem.crop = { ...crop };
       }
+    }
 
-      lastDownloadUrl = URL.createObjectURL(blob);
-      downloadLink.href = lastDownloadUrl;
-      downloadLink.download = `${originalName}-cropped-target-size.${outputExtension(blob.type)}`;
-      downloadLink.classList.remove("disabled");
-      downloadLink.removeAttribute("aria-disabled");
+    function selectImageItem(id) {
+      const item = imageItems.find((entry) => entry.id === id);
+      if (!item) return;
+      if (activeImageId !== id) saveActiveCrop();
+
+      activeImageId = item.id;
+      image = item.image;
+      originalName = item.file.name.replace(/\.[^.]+$/, "") || "image";
+      originalFileSize = item.file.size;
+      originalFileInfo = {
+        displayName: item.file.name,
+        type: item.file.type,
+        extension: fileExtension(item.file.name),
+        lastModified: item.file.lastModified
+      };
+      setOutputFormat(item.file.type);
+      emptyState.style.display = "none";
+      canvas.style.display = "block";
+      fitCanvas();
+      crop = item.crop ? { ...item.crop } : centeredCropForRatio(selectedRatio);
+      clampCrop();
+      resetBtn.disabled = false;
+      exportBtn.disabled = false;
+      outputReadout.textContent = "输出大小：-";
+      setDownload(null);
+      setStatus("图片已载入");
+      renderImageQueue();
+      draw();
+    }
+
+    function removeImageItem(id) {
+      const index = imageItems.findIndex((item) => item.id === id);
+      if (index === -1) return;
+      const [removed] = imageItems.splice(index, 1);
+      URL.revokeObjectURL(removed.url);
+
+      if (activeImageId === id) {
+        const nextItem = imageItems[index] || imageItems[index - 1];
+        if (nextItem) {
+          selectImageItem(nextItem.id);
+        } else {
+          clearCurrentImage();
+          renderImageQueue();
+          setStatus("");
+        }
+      } else {
+        renderImageQueue();
+      }
+    }
+
+    function selectedResults() {
+      return resultItems.filter((item) => item.selected);
+    }
+
+    function updateResultDownloadState() {
+      const hasResults = resultItems.length > 0;
+      const hasSelected = selectedResults().length > 0;
+      const hasMultiple = resultItems.length > 1;
+      resultPanel.hidden = !hasResults;
+      resultSelectActions.hidden = !hasMultiple;
+      downloadLink.classList.toggle("disabled", !hasSelected);
+      if (hasSelected) {
+        downloadLink.removeAttribute("aria-disabled");
+      } else {
+        downloadLink.setAttribute("aria-disabled", "true");
+      }
+    }
+
+    function renderResults() {
+      resultList.innerHTML = resultItems.map((item) => `
+        <div class="result-item" data-result-id="${item.id}" title="点击选择或取消选择">
+          <input class="result-check" type="checkbox" data-result-id="${item.id}" ${item.selected ? "checked" : ""} aria-label="选择 ${escapeHtml(item.name)}">
+          <img src="${item.url}" alt="${escapeHtml(item.name)}">
+          <span>
+            <span class="result-name">${escapeHtml(item.name)}</span>
+            <span class="result-size">${item.sizeText}</span>
+          </span>
+          <button class="result-remove" type="button" data-remove-result-id="${item.id}" aria-label="移除 ${escapeHtml(item.name)}">×</button>
+        </div>
+      `).join("");
+      updateResultDownloadState();
+    }
+
+    function removeResultItem(id) {
+      const index = resultItems.findIndex((item) => item.id === id);
+      if (index === -1) return;
+      const [removed] = resultItems.splice(index, 1);
+      URL.revokeObjectURL(removed.url);
+      renderResults();
+    }
+
+    function addResult(blob, canvasForResult) {
+      const extension = outputExtension(blob.type);
+      const name = `${originalName}-cropped-${nextResultId}.${extension}`;
+      const url = URL.createObjectURL(blob);
+      resultItems.push({
+        id: nextResultId,
+        blob,
+        url,
+        name,
+        selected: true,
+        sourceId: activeImageId,
+        crop: { ...crop },
+        sizeText: `${canvasForResult.width} x ${canvasForResult.height} px，${formatBytes(blob.size)}`
+      });
+      nextResultId += 1;
+      renderResults();
+    }
+
+    function triggerDownload(item) {
+      const link = document.createElement("a");
+      link.href = item.url;
+      link.download = item.name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function downloadResults(items) {
+      items.forEach((item, index) => {
+        setTimeout(() => triggerDownload(item), index * 120);
+      });
+    }
+
+    function previewResult(item) {
+      if (!item || !imageItems.some((entry) => entry.id === item.sourceId)) return;
+      selectImageItem(item.sourceId);
+      crop = { ...item.crop };
+      clampCrop();
+      saveActiveCrop();
+      outputReadout.textContent = `输出大小：${item.sizeText.split("，").pop() || "-"}`;
+      setStatus("已切换到该结果的裁切预览");
+      draw();
+    }
+
+    function setDownload() {
+      updateResultDownloadState();
     }
 
     function updateMeta(outputSize = null) {
@@ -1351,15 +1927,11 @@
       const cropText = image
         ? `${Math.round(crop.width)} x ${Math.round(crop.height)} px`
         : "尚未选择";
-      const output = outputSize || "尚未生成";
-
       meta.innerHTML = `
         <div class="meta-row"><b>文件名：</b><span class="meta-value">${fileName}</span></div>
         <div class="meta-row"><b>格式：</b><span class="meta-value">${format}</span></div>
         <div class="meta-row"><b>原图：</b><span class="meta-value">${original}</span></div>
         <div class="meta-row"><b>详情：</b><span class="meta-value">${detail}</span></div>
-        <div class="meta-row"><b>输出：</b><span class="meta-value">${output}</span></div>
-        <div class="meta-row"><b>输出格式：</b><span class="meta-value">${outputFormatLabel()}</span></div>
       `;
       cropReadout.textContent = `裁切尺寸：${image ? cropText : "-"}`;
     }
@@ -1367,6 +1939,7 @@
     function syncSizeInputs() {
       const mode = getSizeMode();
       const percentMode = mode === "percent";
+      setSizeMode(mode);
       absoluteBranch.hidden = mode !== "absolute";
       percentBranch.hidden = !percentMode;
       absoluteSizeInput.disabled = mode !== "absolute";
@@ -1641,6 +2214,7 @@
       event.preventDefault();
       drag = null;
       clampCrop();
+      saveActiveCrop();
       draw();
     }
 
@@ -1648,6 +2222,7 @@
       if (!image) return;
       crop = centeredCropForRatio(selectedRatio);
       clampCrop();
+      saveActiveCrop();
       setDownload(null);
       outputReadout.textContent = "输出大小：-";
       draw();
@@ -1680,51 +2255,42 @@
       if (image) resetCrop();
     }
 
+    function loadFiles(files) {
+      Array.from(files || []).forEach(loadFile);
+      fileInput.value = "";
+    }
+
     function loadFile(file) {
       if (!file || !file.type.startsWith("image/")) {
         setStatus("请选择图片文件", true);
         return;
       }
-      fileInput.value = "";
 
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-      setDownload(null);
-      originalName = file.name.replace(/\.[^.]+$/, "") || "image";
-      originalFileSize = file.size;
-      originalFileInfo = {
-        displayName: file.name,
-        type: file.type,
-        extension: fileExtension(file.name),
-        lastModified: file.lastModified
+      const url = URL.createObjectURL(file);
+      const item = {
+        id: nextImageId,
+        file,
+        url,
+        image: null
       };
-      setOutputFormat(file.type);
-      objectUrl = URL.createObjectURL(file);
+      nextImageId += 1;
 
       const nextImage = new Image();
       nextImage.onload = () => {
-        image = nextImage;
-        emptyState.style.display = "none";
-        canvas.style.display = "block";
-        updateUploadPrompt(true);
-        fitCanvas();
-        crop = centeredCropForRatio(selectedRatio);
-        clampCrop();
-        resetBtn.disabled = false;
-        exportBtn.disabled = false;
-        outputReadout.textContent = "输出大小：-";
-        setStatus("图片已载入");
-        draw();
+        item.image = nextImage;
+        imageItems.push(item);
+        renderImageQueue();
+        if (!activeImageId) {
+          selectImageItem(item.id);
+        } else {
+          setStatus("图片已加入队列");
+        }
       };
       nextImage.onerror = () => {
-        image = null;
-        resetBtn.disabled = true;
-        exportBtn.disabled = true;
-        canvas.style.display = "none";
-        emptyState.style.display = "block";
-        updateUploadPrompt(false);
+        URL.revokeObjectURL(url);
         setStatus("图片读取失败", true);
       };
-      nextImage.src = objectUrl;
+      nextImage.src = url;
     }
 
     function canvasToBlob(sourceCanvas, quality, type = outputFormat()) {
@@ -1833,11 +2399,11 @@
         return;
       }
 
-      setDownload(result.blob);
       const sizeText = `${result.canvas.width} x ${result.canvas.height} px，${formatBytes(result.blob.size)}`;
+      addResult(result.blob, result.canvas);
       outputReadout.textContent = `输出大小：${formatBytes(result.blob.size)}`;
       updateMeta(sizeText);
-      setStatus(result.blob.size <= limitBytes ? "已按目标大小生成" : "已生成，但仍略大于目标大小", result.blob.size > limitBytes);
+      setStatus(result.blob.size <= limitBytes ? "已加入等待下载区" : "已加入等待下载区，但仍略大于目标大小", result.blob.size > limitBytes);
       exportBtn.disabled = false;
     }
 
@@ -1861,7 +2427,32 @@
 
     setTheme(getInitialTheme(), false);
 
-    fileInput.addEventListener("change", () => loadFile(fileInput.files[0]));
+    fileInput.addEventListener("change", () => loadFiles(fileInput.files));
+    dropZone.addEventListener("click", (event) => {
+      if (event.target.closest(".queue-item") || event.target.closest(".queue-remove") || event.target.closest("#addMoreBtn")) return;
+      fileInput.click();
+    });
+    dropZone.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        fileInput.click();
+      }
+    });
+    addMoreBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      fileInput.click();
+    });
+    queueList.addEventListener("click", (event) => {
+      const removeButton = event.target.closest(".queue-remove");
+      if (removeButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        removeImageItem(Number(removeButton.dataset.removeId));
+        return;
+      }
+      const item = event.target.closest(".queue-item");
+      if (item) selectImageItem(Number(item.dataset.id));
+    });
     resetBtn.addEventListener("click", resetCrop);
     exportBtn.addEventListener("click", exportImage);
     canvasShell.addEventListener("click", (event) => {
@@ -1927,7 +2518,36 @@
     });
 
     downloadLink.addEventListener("click", (event) => {
-      if (downloadLink.classList.contains("disabled")) event.preventDefault();
+      event.preventDefault();
+      if (downloadLink.classList.contains("disabled")) return;
+      downloadResults(selectedResults());
+    });
+    selectAllResultsBtn.addEventListener("click", () => {
+      resultItems.forEach((item) => {
+        item.selected = true;
+      });
+      renderResults();
+    });
+    clearResultsBtn.addEventListener("click", () => {
+      resultItems.forEach((item) => {
+        item.selected = false;
+      });
+      renderResults();
+    });
+    resultList.addEventListener("click", (event) => {
+      const removeButton = event.target.closest(".result-remove");
+      if (removeButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        removeResultItem(Number(removeButton.dataset.removeResultId));
+        return;
+      }
+      const row = event.target.closest(".result-item");
+      if (!row) return;
+      const item = resultItems.find((entry) => entry.id === Number(row.dataset.resultId));
+      if (!item) return;
+      item.selected = !item.selected;
+      renderResults();
     });
 
     canvas.addEventListener("pointerdown", onPointerDown);
@@ -1952,7 +2572,7 @@
 
       uploadTarget.addEventListener("drop", (event) => {
         event.preventDefault();
-        loadFile(event.dataTransfer.files[0]);
+        loadFiles(event.dataTransfer.files);
       });
     });
 
