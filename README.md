@@ -2,7 +2,7 @@
 
 一个运行在浏览器里的图片裁切与压缩工具。支持批量上传图片、自由裁切、固定比例裁切、常用证件照尺寸、图片基础调整，并可以按原图百分比或指定文件大小导出结果。
 
-项目是纯前端静态页面，不需要后端服务，适合直接部署到 GitHub Pages。
+项目是纯前端静态页面，不需要后端服务，所有图片处理都在浏览器本地完成。
 
 ## 在线访问
 
@@ -60,24 +60,6 @@ python -m http.server 8080
 http://127.0.0.1:8080/
 ```
 
-## 部署到 GitHub Pages
-
-1. 把 `index.html`、`README.md` 和 `assets/` 文件夹上传到 GitHub 仓库。
-2. 进入仓库的 `Settings`。
-3. 找到 `Pages`。
-4. 在 `Build and deployment` 里选择：
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/ (root)`
-5. 点击 `Save`。
-6. 等待 GitHub Pages 构建完成。
-
-部署完成后，网站一般会显示在：
-
-```text
-https://你的用户名.github.io/仓库名/
-```
-
 ## 项目结构
 
 ```text
@@ -102,4 +84,3 @@ https://你的用户名.github.io/仓库名/
 ## 作者
 
 created by KenguinPing
-
